@@ -6,7 +6,7 @@ interface StockTableProps {
   stocks: Stock[];
 }
 
-type SortField = 'code' | 'name' | 'detectionDate' | 'cupDepth' | 'handleDays' | 'volumeRatio';
+type SortField = 'code' | 'name' | 'price' | 'detectionDate' | 'cupDepth' | 'handleDays' | 'volumeRatio';
 type SortOrder = 'asc' | 'desc' | null;
 
 export const StockTable = ({ stocks }: StockTableProps) => {
@@ -58,7 +58,7 @@ export const StockTable = ({ stocks }: StockTableProps) => {
   const HeaderCell = ({ field, label }: { field: SortField; label: string }) => (
     <th
       onClick={() => handleSort(field)}
-      className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold cursor-pointer hover:bg-gray-200 transition-colors"
+      className="border-b border-gray-300 px-4 py-3 text-left text-sm font-semibold cursor-pointer hover:bg-gray-50 transition-colors bg-gray-50"
     >
       <div className="flex items-center">
         {label}
@@ -68,26 +68,39 @@ export const StockTable = ({ stocks }: StockTableProps) => {
   );
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full border-collapse border border-gray-300">
+    <div className="overflow-x-auto rounded-lg border border-gray-200">
+      <table className="min-w-full border-collapse">
         <thead>
-          <tr className="bg-gray-100">
+          <tr className="bg-gray-50">
             <HeaderCell field="code" label="銘柄コード" />
-            <HeaderCell field="name" label="銘柄名" />
+            <th className="border-b border-gray-300 px-4 py-3 text-left text-sm font-semibold cursor-pointer hover:bg-gray-50 transition-colors bg-gray-50">
+              <div className="flex items-center gap-2">
+                <div className="flex-1">
+                  <button onClick={() => handleSort('name')} className="hover:text-blue-600">
+                    銘柄名 <SortIcon field="name" />
+                  </button>
+                </div>
+                <div className="text-right whitespace-nowrap">
+                  <button onClick={() => handleSort('price')} className="hover:text-blue-600">
+                    株価 <SortIcon field="price" />
+                  </button>
+                </div>
+              </div>
+            </th>
             <HeaderCell field="detectionDate" label="検出日" />
-            <th className="border border-gray-300 px-4 py-2 text-right text-sm font-semibold cursor-pointer hover:bg-gray-200 transition-colors" onClick={() => handleSort('cupDepth')}>
+            <th className="border-b border-gray-300 px-4 py-3 text-right text-sm font-semibold cursor-pointer hover:bg-gray-50 transition-colors bg-gray-50" onClick={() => handleSort('cupDepth')}>
               <div className="flex items-center justify-end">
                 カップ深さ (%)
                 <SortIcon field="cupDepth" />
               </div>
             </th>
-            <th className="border border-gray-300 px-4 py-2 text-right text-sm font-semibold cursor-pointer hover:bg-gray-200 transition-colors" onClick={() => handleSort('handleDays')}>
+            <th className="border-b border-gray-300 px-4 py-3 text-right text-sm font-semibold cursor-pointer hover:bg-gray-50 transition-colors bg-gray-50" onClick={() => handleSort('handleDays')}>
               <div className="flex items-center justify-end">
                 ハンドル日数
                 <SortIcon field="handleDays" />
               </div>
             </th>
-            <th className="border border-gray-300 px-4 py-2 text-right text-sm font-semibold cursor-pointer hover:bg-gray-200 transition-colors" onClick={() => handleSort('volumeRatio')}>
+            <th className="border-b border-gray-300 px-4 py-3 text-right text-sm font-semibold cursor-pointer hover:bg-gray-50 transition-colors bg-gray-50" onClick={() => handleSort('volumeRatio')}>
               <div className="flex items-center justify-end">
                 出来高倍率
                 <SortIcon field="volumeRatio" />
@@ -97,19 +110,26 @@ export const StockTable = ({ stocks }: StockTableProps) => {
         </thead>
         <tbody>
           {sortedStocks.map((stock) => (
-            <tr key={stock.code} className="hover:bg-gray-50 transition-colors">
-              <td className="border border-gray-300 px-4 py-2 text-sm font-medium">
+            <tr key={stock.code} className="border-b border-gray-200 hover:bg-blue-50 transition-colors">
+              <td className="px-4 py-3 text-sm font-medium text-gray-900">
                 {stock.code}
               </td>
-              <td className="border border-gray-300 px-4 py-2 text-sm">{stock.name}</td>
-              <td className="border border-gray-300 px-4 py-2 text-sm">{stock.detectionDate}</td>
-              <td className="border border-gray-300 px-4 py-2 text-right text-sm">
+              <td className="px-4 py-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-700">{stock.name}</span>
+                  <span className="text-sm font-semibold text-blue-600 ml-4 whitespace-nowrap">
+                    {stock.price.toLocaleString()}円
+                  </span>
+                </div>
+              </td>
+              <td className="px-4 py-3 text-sm text-gray-700">{stock.detectionDate}</td>
+              <td className="px-4 py-3 text-right text-sm text-gray-700">
                 {stock.cupDepth.toFixed(1)}
               </td>
-              <td className="border border-gray-300 px-4 py-2 text-right text-sm">
+              <td className="px-4 py-3 text-right text-sm text-gray-700">
                 {stock.handleDays}
               </td>
-              <td className="border border-gray-300 px-4 py-2 text-right text-sm">
+              <td className="px-4 py-3 text-right text-sm font-medium text-gray-900">
                 {stock.volumeRatio.toFixed(2)}x
               </td>
             </tr>

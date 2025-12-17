@@ -20,12 +20,12 @@ export const FilterPanel = ({ conditions, onConditionsChange }: FilterPanelProps
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+    <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6 mb-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">フィルター条件</h2>
+        <h2 className="text-lg font-semibold text-gray-900">フィルター条件</h2>
         <button
           onClick={handleReset}
-          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all"
         >
           <RotateCcw size={16} />
           リセット

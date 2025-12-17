@@ -1,6 +1,7 @@
 export interface Stock {
   code: string;
   name: string;
+  price: number;
   detectionDate: string;
   cupDepth: number;
   handleDays: number;
